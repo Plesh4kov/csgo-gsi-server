@@ -8,6 +8,10 @@
 </head>
 <body>
   <div id="content">
+    <!-- Название карты -->
+    <h1 id="map-name">Map: Unknown</h1>
+
+    <!-- Команда T -->
     <div class="team t">
       <div class="team-header">
         <span id="team-t-name">Terrorists</span>
@@ -22,12 +26,15 @@
             <th>Assists</th>
             <th>Score</th>
             <th>Damage</th>
+            <th>Money</th>
+            <th>ADR</th>
           </tr>
         </thead>
         <tbody id="team-t-body"></tbody>
       </table>
     </div>
 
+    <!-- Команда CT -->
     <div class="team ct">
       <div class="team-header">
         <span id="team-ct-name">Counter-Terrorists</span>
@@ -42,6 +49,8 @@
             <th>Assists</th>
             <th>Score</th>
             <th>Damage</th>
+            <th>Money</th>
+            <th>ADR</th>
           </tr>
         </thead>
         <tbody id="team-ct-body"></tbody>
@@ -55,38 +64,52 @@
         const response = await fetch('/api/scoreboard');
         const data = await response.json();
 
-        document.getElementById('team-t-name').textContent = data.team2.name;
-        document.getElementById('team-t-score').textContent = data.team2.score;
-        document.getElementById('team-ct-name').textContent = data.team1.name;
-        document.getElementById('team-ct-score').textContent = data.team1.score;
+        // Название карты
+        document.getElementById('map-name').textContent = `Map: ${data.mapName || 'Unknown'}`;
 
+        // Название и счёт команды T
+        document.getElementById('team-t-name').textContent = data.team2.name || 'Terrorists';
+        document.getElementById('team-t-score').textContent = data.team2.score || 0;
+
+        // Название и счёт команды CT
+        document.getElementById('team-ct-name').textContent = data.team1.name || 'Counter-Terrorists';
+        document.getElementById('team-ct-score').textContent = data.team1.score || 0;
+
+        // Таблицы игроков
         const teamTBody = document.getElementById('team-t-body');
         const teamCTBody = document.getElementById('team-ct-body');
-        teamTBody.innerHTML = '';
+
+        teamTBody.innerHTML = ''; // Очищаем предыдущие данные
         teamCTBody.innerHTML = '';
 
+        // Добавляем игроков команды T
         data.T.forEach(player => {
           const row = document.createElement('tr');
           row.innerHTML = `
-            <td>${player.name}</td>
-            <td>${player.kills}</td>
-            <td>${player.deaths}</td>
-            <td>${player.assists}</td>
-            <td>${player.score}</td>
-            <td>${player.damage}</td>
+            <td>${player.name || 'Unknown'}</td>
+            <td>${player.kills || 0}</td>
+            <td>${player.deaths || 0}</td>
+            <td>${player.assists || 0}</td>
+            <td>${player.score || 0}</td>
+            <td>${player.damage || 0}</td>
+            <td>${player.money || 0}</td>
+            <td>${(player.damage / (data.roundCount || 1)).toFixed(2) || 0}</td>
           `;
           teamTBody.appendChild(row);
         });
 
+        // Добавляем игроков команды CT
         data.CT.forEach(player => {
           const row = document.createElement('tr');
           row.innerHTML = `
-            <td>${player.name}</td>
-            <td>${player.kills}</td>
-            <td>${player.deaths}</td>
-            <td>${player.assists}</td>
-            <td>${player.score}</td>
-            <td>${player.damage}</td>
+            <td>${player.name || 'Unknown'}</td>
+            <td>${player.kills || 0}</td>
+            <td>${player.deaths || 0}</td>
+            <td>${player.assists || 0}</td>
+            <td>${player.score || 0}</td>
+            <td>${player.damage || 0}</td>
+            <td>${player.money || 0}</td>
+            <td>${(player.damage / (data.roundCount || 1)).toFixed(2) || 0}</td>
           `;
           teamCTBody.appendChild(row);
         });
@@ -95,6 +118,7 @@
       }
     }
 
+    // Запрашиваем данные каждые 5 секунд
     fetchScoreboard();
     setInterval(fetchScoreboard, 5000);
   </script>
