@@ -8,24 +8,16 @@
     {
       "src": "public/index.html",
       "use": "@vercel/static"
-    },
-    {
-      "src": "public/style.css",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/api/scoreboard",
-      "dest": "src/app/api/gsi/route.js"
-    },
     {
       "src": "/api/gsi",
       "dest": "src/app/api/gsi/route.js"
     },
     {
-      "src": "/style.css",
-      "dest": "/public/style.css"
+      "src": "/api/latest",
+      "dest": "src/app/api/gsi/route.js"
     },
     {
       "src": "/",
