@@ -8,6 +8,10 @@
   ],
   "routes": [
     {
+      "src": "/api/scoreboard",
+      "dest": "src/app/api/gsi/route.js"
+    },
+    {
       "src": "/api/gsi",
       "dest": "src/app/api/gsi/route.js"
     },
