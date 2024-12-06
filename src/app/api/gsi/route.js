@@ -6,6 +6,9 @@ const app = express();
 // Middleware для обработки JSON
 app.use(bodyParser.json());
 
+// Переменная для хранения последних данных GSI
+let latestGSIData = {};
+
 // Корневой маршрут
 app.get('/', (req, res) => {
   res.status(200).json({
@@ -17,9 +20,7 @@ app.get('/', (req, res) => {
   });
 });
 
-// Обработка GSI данных
-let latestGSIData = {}; // Хранение последних данных
-
+// Маршрут для получения GSI-данных
 app.post('/api/gsi', (req, res) => {
   const token = req.body.auth?.token;
 
@@ -32,16 +33,14 @@ app.post('/api/gsi', (req, res) => {
     return res.status(403).json({ error: 'Invalid token' });
   }
 
-  // Логирование данных для отладки
+  // Сохранение данных GSI
   console.log('GSI Data Received:', req.body);
-
-  // Сохраняем последние данные GSI
   latestGSIData = req.body;
 
   res.status(200).json({ success: true, message: 'Data received' });
 });
 
-// Вывод данных Scoreboard
+// Маршрут для получения таблицы результатов (Scoreboard)
 app.get('/api/scoreboard', (req, res) => {
   if (!latestGSIData || !latestGSIData.allplayers) {
     return res.status(404).json({ error: 'No scoreboard data available' });
@@ -58,5 +57,5 @@ app.get('/api/scoreboard', (req, res) => {
   res.status(200).json({ scoreboard });
 });
 
-// Экспорт для Vercel
+// Экспорт приложения для использования в Vercel
 module.exports = app;
