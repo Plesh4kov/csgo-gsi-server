@@ -3,69 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CS:GO Live Scoreboard</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #1e1e1e;
-      color: white;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      width: 90%;
-      margin: 20px auto;
-    }
-
-    .team-header {
-      text-align: center;
-      margin-bottom: 10px;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    table {
-      width: 100%;
-      margin-bottom: 30px;
-      border-collapse: collapse;
-    }
-
-    table th, table td {
-      border: 1px solid #444;
-      padding: 8px;
-      text-align: center;
-    }
-
-    table th {
-      background-color: #333;
-    }
-
-    table tr:nth-child(even) {
-      background-color: #2c2c2c;
-    }
-
-    table tr:nth-child(odd) {
-      background-color: #242424;
-    }
-
-    .team {
-      margin-bottom: 30px;
-    }
-
-    .team.t {
-      border: 2px solid yellow;
-    }
-
-    .team.ct {
-      border: 2px solid lightblue;
-    }
-  </style>
+  <title>CS:GO Scoreboard</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
+  <div id="content">
     <div class="team t">
-      <div class="team-header" id="team-t-header">Terrorists</div>
+      <div class="team-header">
+        <span id="team-t-name">Terrorists</span>
+        <span id="team-t-score">0</span>
+      </div>
       <table>
         <thead>
           <tr>
@@ -82,7 +29,10 @@
     </div>
 
     <div class="team ct">
-      <div class="team-header" id="team-ct-header">Counter-Terrorists</div>
+      <div class="team-header">
+        <span id="team-ct-name">Counter-Terrorists</span>
+        <span id="team-ct-score">0</span>
+      </div>
       <table>
         <thead>
           <tr>
@@ -105,17 +55,16 @@
         const response = await fetch('/api/scoreboard');
         const data = await response.json();
 
-        // Устанавливаем названия команд
-        document.getElementById('team-t-header').textContent = data.team2;
-        document.getElementById('team-ct-header').textContent = data.team1;
+        document.getElementById('team-t-name').textContent = data.team2.name;
+        document.getElementById('team-t-score').textContent = data.team2.score;
+        document.getElementById('team-ct-name').textContent = data.team1.name;
+        document.getElementById('team-ct-score').textContent = data.team1.score;
 
-        // Очищаем таблицы
         const teamTBody = document.getElementById('team-t-body');
         const teamCTBody = document.getElementById('team-ct-body');
         teamTBody.innerHTML = '';
         teamCTBody.innerHTML = '';
 
-        // Добавляем игроков в таблицы
         data.T.forEach(player => {
           const row = document.createElement('tr');
           row.innerHTML = `
@@ -146,9 +95,8 @@
       }
     }
 
-    // Обновляем данные каждые 5 секунд
-    setInterval(fetchScoreboard, 5000);
     fetchScoreboard();
+    setInterval(fetchScoreboard, 5000);
   </script>
 </body>
 </html>

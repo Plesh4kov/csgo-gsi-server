@@ -6,7 +6,7 @@ const app = express();
 // Middleware для обработки JSON
 app.use(bodyParser.json());
 
-// Хранилище для последних данных GSI
+// Переменная для хранения последних данных GSI
 let latestGSIData = {};
 
 // Корневой маршрут
@@ -15,30 +15,55 @@ app.get('/', (req, res) => {
     message: 'Welcome to the CS:GO GSI Server!',
     endpoints: {
       gsi: '/api/gsi',
-      scoreboard: '/api/scoreboard'
-    }
+      scoreboard: '/api/scoreboard',
+    },
   });
 });
 
-// Принимаем GSI данные
+// Маршрут для получения GSI-данных
 app.post('/api/gsi', (req, res) => {
-  console.log('POST /api/gsi - Data received:', req.body);
-  latestGSIData = req.body; // Сохраняем данные
+  const token = req.body.auth?.token;
+
+  // Проверка токена
+  if (!token) {
+    return res.status(400).json({ error: 'Token not provided' });
+  }
+
+  if (token !== 'your-secret-token') {
+    return res.status(403).json({ error: 'Invalid token' });
+  }
+
+  // Сохранение данных GSI
+  console.log('GSI Data Received:', req.body);
+  latestGSIData = req.body;
+
   res.status(200).json({ success: true, message: 'Data received' });
 });
 
-// API для фронтенда: Скорборд
+// Маршрут для получения таблицы результатов (Scoreboard)
 app.get('/api/scoreboard', (req, res) => {
-  if (!latestGSIData || !latestGSIData.allplayers) {
-    return res.status(404).json({ error: 'No data available' });
+  if (!latestGSIData || !latestGSIData.map || !latestGSIData.allplayers) {
+    return res.status(404).json({ error: 'No scoreboard data available' });
   }
+
+  // Извлекаем названия команд и счёт
+  const team1 = latestGSIData.map.team_ct || 'Counter-Terrorists';
+  const team2 = latestGSIData.map.team_t || 'Terrorists';
+  const scoreCT = latestGSIData.map.team_ct_score || 0;
+  const scoreT = latestGSIData.map.team_t_score || 0;
 
   // Формируем данные для скорборда
   const scoreboard = {
-    team1: latestGSIData.map.team_ct || 'Counter-Terrorists',
-    team2: latestGSIData.map.team_t || 'Terrorists',
+    team1: {
+      name: team1,
+      score: scoreCT,
+    },
+    team2: {
+      name: team2,
+      score: scoreT,
+    },
     T: [],
-    CT: []
+    CT: [],
   };
 
   Object.values(latestGSIData.allplayers).forEach((player) => {
@@ -48,7 +73,7 @@ app.get('/api/scoreboard', (req, res) => {
       deaths: player.match_stats.deaths,
       assists: player.match_stats.assists,
       score: player.match_stats.score,
-      damage: player.match_stats.damage || 0
+      damage: player.match_stats.damage || 0,
     };
 
     if (player.team === 'T') {
@@ -57,6 +82,10 @@ app.get('/api/scoreboard', (req, res) => {
       scoreboard.CT.push(playerData);
     }
   });
+
+  // Сортировка по убыванию damage
+  scoreboard.T.sort((a, b) => b.damage - a.damage);
+  scoreboard.CT.sort((a, b) => b.damage - a.damage);
 
   res.status(200).json(scoreboard);
 });

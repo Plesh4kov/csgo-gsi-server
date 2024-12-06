@@ -1,0 +1,85 @@
+/* Общий стиль */
+body {
+    background: url('background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Заголовки */
+  h1, h2 {
+    margin: 20px 0;
+    font-size: 28px;
+    text-transform: uppercase;
+  }
+  
+  /* Команда CT */
+  .team.ct {
+    border: 2px solid lightblue;
+    background: rgba(0, 0, 255, 0.2);
+    margin: 20px auto;
+    padding: 10px;
+    border-radius: 10px;
+    width: 90%;
+  }
+  
+  /* Команда T */
+  .team.t {
+    border: 2px solid yellow;
+    background: rgba(255, 255, 0, 0.2);
+    margin: 20px auto;
+    padding: 10px;
+    border-radius: 10px;
+    width: 90%;
+  }
+  
+  /* Заголовок команды */
+  .team-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
+  }
+  
+  /* Таблица */
+  table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid white;
+  }
+  
+  th {
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+  }
+  
+  td {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Адаптивность */
+  @media (max-width: 768px) {
+    .team-header {
+      font-size: 18px;
+    }
+  
+    th, td {
+      padding: 5px;
+      font-size: 14px;
+    }
+  }
+  
