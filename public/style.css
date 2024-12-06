@@ -1,85 +1,97 @@
 /* Общий стиль */
 body {
-    background: url('background.jpg') no-repeat center center fixed;
-    background-size: cover;
-    font-family: Arial, sans-serif;
-    color: white;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Заголовки */
-  h1, h2 {
-    margin: 20px 0;
-    font-size: 28px;
-    text-transform: uppercase;
-  }
-  
-  /* Команда CT */
-  .team.ct {
-    border: 2px solid lightblue;
-    background: rgba(0, 0, 255, 0.2);
-    margin: 20px auto;
-    padding: 10px;
-    border-radius: 10px;
-    width: 90%;
-  }
-  
-  /* Команда T */
-  .team.t {
-    border: 2px solid yellow;
-    background: rgba(255, 255, 0, 0.2);
-    margin: 20px auto;
-    padding: 10px;
-    border-radius: 10px;
-    width: 90%;
-  }
-  
-  /* Заголовок команды */
+  background: url('/background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Arial', sans-serif;
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Заголовки */
+h1, h2 {
+  margin: 20px 0;
+  font-size: 28px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Общие стили для команд */
+.team {
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Стиль для команды CT */
+.team.ct {
+  border: 3px solid lightblue;
+  background: linear-gradient(135deg, rgba(0, 0, 255, 0.3), rgba(0, 0, 255, 0.1));
+}
+
+/* Стиль для команды T */
+.team.t {
+  border: 3px solid yellow;
+  background: linear-gradient(135deg, rgba(255, 255, 0, 0.3), rgba(255, 255, 0, 0.1));
+}
+
+/* Заголовок команды */
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 5px;
+  color: white;
+}
+
+/* Таблицы */
+table {
+  width: 100%;
+  margin-top: 15px;
+  border-collapse: collapse;
+  background: rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+th {
+  background: rgba(255, 255, 255, 0.3);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+td {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Hover эффект для строк таблицы */
+tr:hover td {
+  background: rgba(255, 255, 255, 0.2);
+  transition: background 0.3s;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
   .team-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 24px;
-    font-weight: bold;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 5px;
-  }
-  
-  /* Таблица */
-  table {
-    width: 100%;
-    margin-top: 10px;
-    border-collapse: collapse;
-    background: rgba(0, 0, 0, 0.8);
-  }
-  
-  th, td {
-    padding: 10px;
-    text-align: center;
-    border: 1px solid white;
-  }
-  
-  th {
-    background: rgba(255, 255, 255, 0.2);
-    font-weight: bold;
-  }
-  
-  td {
-    background: rgba(255, 255, 255, 0.1);
-  }
-  
-  /* Адаптивность */
-  @media (max-width: 768px) {
-    .team-header {
       font-size: 18px;
-    }
-  
-    th, td {
-      padding: 5px;
-      font-size: 14px;
-    }
   }
-  
+
+  th, td {
+      padding: 8px;
+      font-size: 14px;
+  }
+}
