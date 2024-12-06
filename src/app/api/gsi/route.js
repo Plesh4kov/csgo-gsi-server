@@ -22,12 +22,22 @@ app.get('/', (req, res) => {
 
 // Маршрут для получения GSI-данных
 app.post('/api/gsi', (req, res) => {
-  console.log('Received GSI data:', req.body);
+  const token = req.body.auth?.token;
+
+  // Проверка токена
+  if (!token) {
+    return res.status(400).json({ error: 'Token not provided' });
+  }
+
+  if (token !== 'your-secret-token') {
+    return res.status(403).json({ error: 'Invalid token' });
+  }
 
   // Сохранение данных GSI
+  console.log('GSI Data Received:', req.body);
   latestGSIData = req.body;
 
-  res.status(200).json({ success: true, message: 'GSI data received' });
+  res.status(200).json({ success: true, message: 'Data received' });
 });
 
 // Маршрут для получения таблицы результатов (Scoreboard)
@@ -36,18 +46,24 @@ app.get('/api/scoreboard', (req, res) => {
     return res.status(404).json({ error: 'No scoreboard data available' });
   }
 
-  const team1 = latestGSIData.map.team_ct || 'Counter-Terrorists';
-  const team2 = latestGSIData.map.team_t || 'Terrorists';
-  const scoreCT = latestGSIData.map.team_ct_score || 0;
-  const scoreT = latestGSIData.map.team_t_score || 0;
+  // Извлекаем данные о командах
+  const teamCT = latestGSIData.map.team_ct || {};
+  const teamT = latestGSIData.map.team_t || {};
 
   const scoreboard = {
-    team1: { name: team1, score: scoreCT },
-    team2: { name: team2, score: scoreT },
+    team1: {
+      name: teamCT.name || 'Counter-Terrorists',
+      score: teamCT.score || 0,
+    },
+    team2: {
+      name: teamT.name || 'Terrorists',
+      score: teamT.score || 0,
+    },
     T: [],
     CT: [],
   };
 
+  // Формируем данные для игроков
   Object.values(latestGSIData.allplayers).forEach((player) => {
     const playerData = {
       name: player.name,
