@@ -11,6 +11,7 @@ let latestGSIData = {};
 
 // Корневой маршрут
 app.get('/', (req, res) => {
+  console.log('GET / - Root endpoint hit');
   res.status(200).json({
     message: 'Welcome to the CS:GO GSI Server!',
     endpoints: {
@@ -20,21 +21,12 @@ app.get('/', (req, res) => {
   });
 });
 
-// Маршрут для получения GSI-данных
+// Маршрут для получения GSI-данных (без проверки токена)
 app.post('/api/gsi', (req, res) => {
-  const token = req.body.auth?.token;
-
-  // Проверка токена
-  if (!token) {
-    return res.status(400).json({ error: 'Token not provided' });
-  }
-
-  if (token !== 'your-secret-token') {
-    return res.status(403).json({ error: 'Invalid token' });
-  }
+  // Логирование данных для отладки
+  console.log('POST /api/gsi - GSI Data Received:', req.body);
 
   // Сохранение данных GSI
-  console.log('GSI Data Received:', req.body);
   latestGSIData = req.body;
 
   res.status(200).json({ success: true, message: 'Data received' });
@@ -42,7 +34,10 @@ app.post('/api/gsi', (req, res) => {
 
 // Маршрут для получения таблицы результатов (Scoreboard)
 app.get('/api/scoreboard', (req, res) => {
+  console.log('GET /api/scoreboard hit');
+
   if (!latestGSIData || !latestGSIData.allplayers) {
+    console.log('GET /api/scoreboard - No scoreboard data available');
     return res.status(404).json({ error: 'No scoreboard data available' });
   }
 
@@ -53,6 +48,8 @@ app.get('/api/scoreboard', (req, res) => {
     assists: player.match_stats.assists,
     score: player.match_stats.score
   }));
+
+  console.log('GET /api/scoreboard - Scoreboard data:', scoreboard);
 
   res.status(200).json({ scoreboard });
 });
