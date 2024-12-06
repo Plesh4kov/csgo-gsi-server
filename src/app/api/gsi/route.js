@@ -66,28 +66,36 @@ app.get('/api/scoreboard', (req, res) => {
     CT: [],
   };
 
-  Object.values(latestGSIData.allplayers).forEach((player) => {
-    const playerData = {
-      name: player.name,
-      kills: player.match_stats.kills,
-      deaths: player.match_stats.deaths,
-      assists: player.match_stats.assists,
-      score: player.match_stats.score,
-      damage: player.match_stats.damage || 0,
-    };
+  // Проверка и обработка игроков
+  if (latestGSIData.allplayers) {
+    Object.values(latestGSIData.allplayers).forEach((player) => {
+      const playerData = {
+        name: player.name || 'Unknown',
+        kills: player.match_stats.kills || 0,
+        deaths: player.match_stats.deaths || 0,
+        assists: player.match_stats.assists || 0,
+        score: player.match_stats.score || 0,
+        damage: player.match_stats.damage || 0,
+      };
 
-    if (player.team === 'T') {
-      scoreboard.T.push(playerData);
-    } else if (player.team === 'CT') {
-      scoreboard.CT.push(playerData);
-    }
-  });
+      if (player.team === 'T') {
+        scoreboard.T.push(playerData);
+      } else if (player.team === 'CT') {
+        scoreboard.CT.push(playerData);
+      }
+    });
 
-  // Сортировка по убыванию damage
-  scoreboard.T.sort((a, b) => b.damage - a.damage);
-  scoreboard.CT.sort((a, b) => b.damage - a.damage);
+    // Сортировка по убыванию damage
+    scoreboard.T.sort((a, b) => b.damage - a.damage);
+    scoreboard.CT.sort((a, b) => b.damage - a.damage);
+  }
 
   res.status(200).json(scoreboard);
+});
+
+// Обработчик несуществующих маршрутов
+app.use((req, res) => {
+  res.status(404).json({ error: 'Endpoint not found' });
 });
 
 // Экспорт приложения для использования в Vercel
