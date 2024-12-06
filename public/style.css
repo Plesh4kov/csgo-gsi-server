@@ -28,14 +28,14 @@ h1, h2 {
 
 /* Стиль для команды CT */
 .team.ct {
-  border: 3px solid lightblue;
-  background: linear-gradient(135deg, rgba(68, 38, 88, 0.575), rgba(97, 27, 104, 0.1));
+  border: 3px solid rgb(83, 14, 14);
+  background: linear-gradient(135deg, rgba(68, 38, 88, 0.781), rgba(72, 25, 83, 0.685));
 }
 
 /* Стиль для команды T */
 .team.t {
-  border: 3px solid rgb(151, 129, 87);
-  background: linear-gradient(135deg, rgba(63, 54, 38, 0.705), rgba(71, 55, 23, 0.1));
+  border: 3px solid rgb(77, 65, 43);
+  background: linear-gradient(135deg, rgba(63, 54, 38, 0.829), rgba(71, 55, 23, 0.651));
 }
 
 /* Заголовок команды */
