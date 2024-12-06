@@ -6,42 +6,32 @@ const app = express();
 // Middleware для обработки JSON
 app.use(bodyParser.json());
 
-// Обработка маршрута для получения GSI данных
+// Корневой маршрут (для отображения статуса сервера)
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'Server is ready to receive GSI data!' });
+});
+
+// Обработка маршрута для GSI данных
 app.post('/api/gsi', (req, res) => {
-  // Логируем запрос для отладки
-  console.log('Request Headers:', req.headers);
-  console.log('Request Body:', req.body);
-
-  // Проверка: Есть ли тело запроса
-  if (!req.body) {
-    console.error('No body found in request');
-    return res.status(400).json({ error: 'Bad Request: No body found' });
-  }
-
-  // Извлечение токена из тела запроса
   const token = req.body.auth?.token;
 
-  // Проверка токена
+  // Проверка наличия токена
   if (!token) {
     console.error('Token not provided');
-    return res.status(400).json({ error: 'Bad Request: Token not provided' });
+    return res.status(400).json({ error: 'Token not provided' });
   }
 
+  // Проверка корректности токена
   if (token !== 'your-secret-token') {
     console.error('Invalid token:', token);
     return res.status(403).json({ error: 'Invalid token' });
   }
 
-  // Логика обработки данных (вывод данных в консоль)
+  // Логирование данных для отладки
   console.log('GSI Data Received:', req.body);
 
-  // Возвращаем успешный ответ
-  res.status(200).json({ success: true, message: 'Data received successfully' });
-});
-
-// Обработка маршрута для проверки работоспособности сервера
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Server is running' });
+  // Ответ клиенту
+  res.status(200).json({ success: true, data: req.body });
 });
 
 // Запуск сервера
