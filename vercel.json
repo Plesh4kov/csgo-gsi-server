@@ -4,6 +4,10 @@
     {
       "src": "src/app/api/gsi/route.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -17,7 +21,7 @@
     },
     {
       "src": "/",
-      "dest": "src/app/api/gsi/route.js"
+      "dest": "/index.html"
     }
   ]
 }
