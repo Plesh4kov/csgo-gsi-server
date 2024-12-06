@@ -1,0 +1,29 @@
+.match-info {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .match {
+    border-bottom: 2px solid #ccc;
+    padding: 10px 0;
+  }
+  
+  .teams {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .team {
+    width: 45%;
+  }
+  
+  .players {
+    margin-top: 20px;
+  }
+  
+  .player {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 5px 0;
+  }
+  
