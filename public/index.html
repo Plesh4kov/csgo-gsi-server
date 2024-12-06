@@ -8,9 +8,6 @@
 </head>
 <body>
   <div id="content">
-    <!-- Название карты -->
-    <h1 id="map-name">Map: Unknown</h1>
-
     <!-- Команда T -->
     <div class="team t">
       <div class="team-header">
@@ -27,7 +24,7 @@
             <th>Score</th>
             <th>Damage</th>
             <th>Money</th>
-            <th>ADR</th>
+            <th>Equip Value</th>
           </tr>
         </thead>
         <tbody id="team-t-body"></tbody>
@@ -50,7 +47,7 @@
             <th>Score</th>
             <th>Damage</th>
             <th>Money</th>
-            <th>ADR</th>
+            <th>Equip Value</th>
           </tr>
         </thead>
         <tbody id="team-ct-body"></tbody>
@@ -64,14 +61,11 @@
         const response = await fetch('/api/scoreboard');
         const data = await response.json();
 
-        // Название карты
-        document.getElementById('map-name').textContent = `Map: ${data.mapName || 'Unknown'}`;
-
-        // Название и счёт команды T
+        // Обновляем название и счёт команды T
         document.getElementById('team-t-name').textContent = data.team2.name || 'Terrorists';
         document.getElementById('team-t-score').textContent = data.team2.score || 0;
 
-        // Название и счёт команды CT
+        // Обновляем название и счёт команды CT
         document.getElementById('team-ct-name').textContent = data.team1.name || 'Counter-Terrorists';
         document.getElementById('team-ct-score').textContent = data.team1.score || 0;
 
@@ -93,7 +87,7 @@
             <td>${player.score || 0}</td>
             <td>${player.damage || 0}</td>
             <td>${player.money || 0}</td>
-            <td>${(player.damage / (data.roundCount || 1)).toFixed(2) || 0}</td>
+            <td>${player.equipValue || 0}</td>
           `;
           teamTBody.appendChild(row);
         });
@@ -109,7 +103,7 @@
             <td>${player.score || 0}</td>
             <td>${player.damage || 0}</td>
             <td>${player.money || 0}</td>
-            <td>${(player.damage / (data.roundCount || 1)).toFixed(2) || 0}</td>
+            <td>${player.equipValue || 0}</td>
           `;
           teamCTBody.appendChild(row);
         });

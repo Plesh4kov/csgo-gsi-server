@@ -46,7 +46,7 @@ app.get('/api/scoreboard', (req, res) => {
     return res.status(404).json({ error: 'No scoreboard data available' });
   }
 
-  // Извлекаем данные о командах
+  // Извлекаем названия команд и счёт
   const teamCT = latestGSIData.map.team_ct || {};
   const teamT = latestGSIData.map.team_t || {};
 
@@ -63,15 +63,17 @@ app.get('/api/scoreboard', (req, res) => {
     CT: [],
   };
 
-  // Формируем данные для игроков
+  // Формируем список игроков
   Object.values(latestGSIData.allplayers).forEach((player) => {
     const playerData = {
-      name: player.name,
-      kills: player.match_stats.kills,
-      deaths: player.match_stats.deaths,
-      assists: player.match_stats.assists,
-      score: player.match_stats.score,
-      damage: player.match_stats.damage || 0,
+      name: player.name || 'Unknown',
+      kills: player.match_stats.kills || 0,
+      deaths: player.match_stats.deaths || 0,
+      assists: player.match_stats.assists || 0,
+      score: player.match_stats.score || 0,
+      damage: player.state.round_totaldmg || 0,
+      money: player.state.money || 0,
+      equipValue: player.state.equip_value || 0,
     };
 
     if (player.team === 'T') {
@@ -81,7 +83,7 @@ app.get('/api/scoreboard', (req, res) => {
     }
   });
 
-  // Сортировка по убыванию damage
+  // Сортировка игроков по убыванию damage
   scoreboard.T.sort((a, b) => b.damage - a.damage);
   scoreboard.CT.sort((a, b) => b.damage - a.damage);
 
