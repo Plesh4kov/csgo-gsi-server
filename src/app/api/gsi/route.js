@@ -11,30 +11,22 @@ let latestGSIData = {};
 
 // Корневой маршрут
 app.get('/', (req, res) => {
+  console.log('GET / - Root endpoint hit');
   res.status(200).json({
     message: 'Welcome to the CS:GO GSI Server!',
     endpoints: {
       gsi: '/api/gsi',
-      scoreboard: '/api/scoreboard',
-    },
+      scoreboard: '/api/scoreboard'
+    }
   });
 });
 
-// Маршрут для получения GSI-данных
+// Маршрут для получения GSI-данных (без проверки токена)
 app.post('/api/gsi', (req, res) => {
-  const token = req.body.auth?.token;
-
-  // Проверка токена
-  if (!token) {
-    return res.status(400).json({ error: 'Token not provided' });
-  }
-
-  if (token !== 'your-secret-token') {
-    return res.status(403).json({ error: 'Invalid token' });
-  }
+  // Логирование данных для отладки
+  console.log('POST /api/gsi - GSI Data Received:', req.body);
 
   // Сохранение данных GSI
-  console.log('GSI Data Received:', req.body);
   latestGSIData = req.body;
 
   res.status(200).json({ success: true, message: 'Data received' });
@@ -42,52 +34,24 @@ app.post('/api/gsi', (req, res) => {
 
 // Маршрут для получения таблицы результатов (Scoreboard)
 app.get('/api/scoreboard', (req, res) => {
-  if (!latestGSIData || !latestGSIData.map || !latestGSIData.allplayers) {
+  console.log('GET /api/scoreboard hit');
+
+  if (!latestGSIData || !latestGSIData.allplayers) {
+    console.log('GET /api/scoreboard - No scoreboard data available');
     return res.status(404).json({ error: 'No scoreboard data available' });
   }
 
-  // Извлекаем названия команд и счёт
-  const team1 = latestGSIData.map.team_ct?.name || 'Counter-Terrorists';
-  const team2 = latestGSIData.map.team_t?.name || 'Terrorists';
-  const scoreCT = latestGSIData.map.team_ct?.score || 0;
-  const scoreT = latestGSIData.map.team_t?.score || 0;
+  const scoreboard = Object.values(latestGSIData.allplayers).map((player) => ({
+    name: player.name,
+    kills: player.match_stats.kills,
+    deaths: player.match_stats.deaths,
+    assists: player.match_stats.assists,
+    score: player.match_stats.score
+  }));
 
-  // Формируем данные для скорборда
-  const scoreboard = {
-    team1: {
-      name: team1,
-      score: scoreCT,
-    },
-    team2: {
-      name: team2,
-      score: scoreT,
-    },
-    T: [],
-    CT: [],
-  };
+  console.log('GET /api/scoreboard - Scoreboard data:', scoreboard);
 
-  Object.values(latestGSIData.allplayers).forEach((player) => {
-    const playerData = {
-      name: player.name,
-      kills: player.match_stats.kills,
-      deaths: player.match_stats.deaths,
-      assists: player.match_stats.assists,
-      score: player.match_stats.score,
-      damage: player.match_stats.damage || 0,
-    };
-
-    if (player.team === 'T') {
-      scoreboard.T.push(playerData);
-    } else if (player.team === 'CT') {
-      scoreboard.CT.push(playerData);
-    }
-  });
-
-  // Сортировка по убыванию damage
-  scoreboard.T.sort((a, b) => b.damage - a.damage);
-  scoreboard.CT.sort((a, b) => b.damage - a.damage);
-
-  res.status(200).json(scoreboard);
+  res.status(200).json({ scoreboard });
 });
 
 // Экспорт приложения для использования в Vercel
