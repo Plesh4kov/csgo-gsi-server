@@ -21,6 +21,8 @@
             <th>Deaths</th>
             <th>Assists</th>
             <th>Score</th>
+            <th>MVPs</th>
+            <th>Equip Value</th>
             <th>Damage</th>
           </tr>
         </thead>
@@ -41,6 +43,8 @@
             <th>Deaths</th>
             <th>Assists</th>
             <th>Score</th>
+            <th>MVPs</th>
+            <th>Equip Value</th>
             <th>Damage</th>
           </tr>
         </thead>
@@ -55,13 +59,11 @@
         const response = await fetch('/api/scoreboard');
         const data = await response.json();
 
-        // Названия и счета команд
-        document.getElementById('team-t-name').textContent = data.teamT.name;
-        document.getElementById('team-t-score').textContent = data.teamT.score;
-        document.getElementById('team-ct-name').textContent = data.teamCT.name;
-        document.getElementById('team-ct-score').textContent = data.teamCT.score;
+        document.getElementById('team-t-name').textContent = data.team2.name;
+        document.getElementById('team-t-score').textContent = data.team2.score;
+        document.getElementById('team-ct-name').textContent = data.team1.name;
+        document.getElementById('team-ct-score').textContent = data.team1.score;
 
-        // Таблицы игроков
         const teamTBody = document.getElementById('team-t-body');
         const teamCTBody = document.getElementById('team-ct-body');
         teamTBody.innerHTML = '';
@@ -75,6 +77,8 @@
             <td>${player.deaths}</td>
             <td>${player.assists}</td>
             <td>${player.score}</td>
+            <td>${player.mvps}</td>
+            <td>${player.equipValue}</td>
             <td>${player.damage}</td>
           `;
           teamTBody.appendChild(row);
@@ -88,6 +92,8 @@
             <td>${player.deaths}</td>
             <td>${player.assists}</td>
             <td>${player.score}</td>
+            <td>${player.mvps}</td>
+            <td>${player.equipValue}</td>
             <td>${player.damage}</td>
           `;
           teamCTBody.appendChild(row);
