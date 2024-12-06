@@ -73,7 +73,7 @@ app.get('/api/scoreboard', (req, res) => {
       deaths: player.match_stats.deaths,
       assists: player.match_stats.assists,
       score: player.match_stats.score,
-      damage: player.state?.round_totaldmg || 0,
+      damage: player.match_stats.damage || 0,
     };
 
     if (player.team === 'T') {

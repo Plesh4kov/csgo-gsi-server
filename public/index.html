@@ -55,19 +55,16 @@
         const response = await fetch('/api/scoreboard');
         const data = await response.json();
 
-        // Обновление названий и счёта команд
         document.getElementById('team-t-name').textContent = data.team2.name;
         document.getElementById('team-t-score').textContent = data.team2.score;
         document.getElementById('team-ct-name').textContent = data.team1.name;
         document.getElementById('team-ct-score').textContent = data.team1.score;
 
-        // Очистка таблиц
         const teamTBody = document.getElementById('team-t-body');
         const teamCTBody = document.getElementById('team-ct-body');
         teamTBody.innerHTML = '';
         teamCTBody.innerHTML = '';
 
-        // Добавление игроков в таблицы
         data.T.forEach(player => {
           const row = document.createElement('tr');
           row.innerHTML = `

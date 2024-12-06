@@ -3,45 +3,41 @@ body {
   background-size: cover;
   font-family: Arial, sans-serif;
   color: white;
-  margin: 0;
-  padding: 0;
   text-align: center;
 }
 
 .team {
   margin: 20px auto;
-  padding: 15px;
   width: 90%;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-}
-
-.team.ct {
-  border: 2px solid lightblue;
-  background-color: rgba(0, 0, 255, 0.1);
+  padding: 10px;
 }
 
 .team.t {
+  background: rgba(255, 255, 0, 0.2);
   border: 2px solid yellow;
-  background-color: rgba(255, 255, 0, 0.1);
+}
+
+.team.ct {
+  background: rgba(0, 0, 255, 0.2);
+  border: 2px solid lightblue;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
 }
 
 th, td {
   padding: 10px;
-  text-align: center;
   border: 1px solid white;
+  text-align: center;
 }
 
 th {
-  background-color: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.8);
 }
 
 td {
-  background-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
