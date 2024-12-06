@@ -1,97 +1,47 @@
-/* Общий стиль */
 body {
-  background: url('/background.jpg') no-repeat center center fixed;
+  background: url('background.jpg') no-repeat center center fixed;
   background-size: cover;
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   color: white;
-  text-align: center;
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
-/* Заголовки */
-h1, h2 {
-  margin: 20px 0;
-  font-size: 28px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-/* Общие стили для команд */
 .team {
   margin: 20px auto;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 15px;
   width: 90%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
-/* Стиль для команды CT */
 .team.ct {
-  border: 3px solid rgb(83, 14, 14);
-  background: linear-gradient(135deg, rgba(68, 38, 88, 0.781), rgba(72, 25, 83, 0.685));
+  border: 2px solid lightblue;
+  background-color: rgba(0, 0, 255, 0.1);
 }
 
-/* Стиль для команды T */
 .team.t {
-  border: 3px solid rgb(77, 65, 43);
-  background: linear-gradient(135deg, rgba(63, 54, 38, 0.829), rgba(71, 55, 23, 0.651));
+  border: 2px solid yellow;
+  background-color: rgba(255, 255, 0, 0.1);
 }
 
-/* Заголовок команды */
-.team-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 24px;
-  font-weight: bold;
-  padding: 10px 20px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 5px;
-  color: white;
-}
-
-/* Таблицы */
 table {
   width: 100%;
-  margin-top: 15px;
   border-collapse: collapse;
-  background: rgba(0, 0, 0, 0.7);
-  overflow: hidden;
-  border-radius: 8px;
+  margin-top: 10px;
 }
 
 th, td {
   padding: 10px;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
+  border: 1px solid white;
 }
 
 th {
-  background: rgba(255, 255, 255, 0.3);
-  font-weight: bold;
-  text-transform: uppercase;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 td {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* Hover эффект для строк таблицы */
-tr:hover td {
-  background: rgba(255, 255, 255, 0.2);
-  transition: background 0.3s;
-}
-
-/* Адаптивность для мобильных устройств */
-@media (max-width: 768px) {
-  .team-header {
-      font-size: 18px;
-  }
-
-  th, td {
-      padding: 8px;
-      font-size: 14px;
-  }
+  background-color: rgba(255, 255, 255, 0.1);
 }
