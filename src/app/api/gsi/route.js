@@ -8,13 +8,19 @@ app.use(bodyParser.json());
 
 // Корневой маршрут
 app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Server is ready to receive GSI data!' });
+  res.status(200).json({
+    message: 'Welcome to the CS:GO GSI Server!',
+    endpoints: {
+      gsi: '/api/gsi'
+    }
+  });
 });
 
 // Обработка GSI данных
 app.post('/api/gsi', (req, res) => {
   const token = req.body.auth?.token;
 
+  // Проверка токена
   if (!token) {
     return res.status(400).json({ error: 'Token not provided' });
   }
@@ -28,4 +34,5 @@ app.post('/api/gsi', (req, res) => {
   res.status(200).json({ success: true, data: req.body });
 });
 
+// Экспорт для Vercel
 module.exports = app;
